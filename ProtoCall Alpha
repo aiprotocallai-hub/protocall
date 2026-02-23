@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProtoCall — Η Πρώτη Φωνή της Επιχείρησής σας</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1F4E;
+    --navy-light: #162a5e;
+    --green: #00C48C;
+    --green-dark: #009e72;
+    --white: #ffffff;
+    --off-white: #F7F8FC;
+    --gray: #8A94A8;
+    --border: #E4E8F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--navy);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 72px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span.proto { color: var(--navy); }
+  .nav-logo span.call { color: var(--green); }
+
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a {
+    text-decoration: none; color: var(--navy);
+    font-size: 15px; font-weight: 400;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  .nav-cta {
+    background: var(--navy);
+    color: white !important;
+    opacity: 1 !important;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--green) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 55%; height: 100%;
+    background: var(--off-white);
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 580px;
+    animation: fadeUp 0.9s ease forwards;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,196,140,0.1);
+    border: 1px solid rgba(0,196,140,0.3);
+    color: var(--green-dark);
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 5vw, 62px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+    color: var(--navy);
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  .hero p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--gray);
+    font-weight: 300;
+    margin-bottom: 40px;
+    max-width: 480px;
+  }
+
+  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--green);
+    color: white;
+    padding: 15px 32px;
+    border-radius: 8px;
+    font-size: 16px; font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(0,196,140,0.35);
+  }
+  .btn-primary:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,196,140,0.4);
+  }
+
+  .btn-secondary {
+    color: var(--navy);
+    font-size: 15px; font-weight: 600;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .btn-secondary:hover { opacity: 1; }
+  .btn-secondary::after { content: '→'; }
+
+  .hero-trust {
+    margin-top: 52px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 13px; color: var(--gray);
+  }
+  .hero-trust span { font-weight: 600; color: var(--navy); }
+
+  .hero-visual {
+    position: absolute; right: 5%; top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    animation: fadeIn 1.2s ease forwards;
+  }
+
+  /* Mock notification card */
+  .notif-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 28px;
+    width: 320px;
+    box-shadow: 0 20px 60px rgba(13,31,78,0.15);
+    border: 1px solid var(--border);
+  }
+  .notif-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .notif-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .notif-title { font-weight: 700; font-size: 14px; }
+  .notif-sub { font-size: 12px; color: var(--gray); }
+  .notif-body { font-size: 13px; line-height: 1.6; color: #444; }
+  .notif-body strong { color: var(--navy); }
+  .notif-tag {
+    display: inline-block;
+    background: rgba(0,196,140,0.1);
+    color: var(--green-dark);
+    font-size: 11px; font-weight: 600;
+    padding: 3px 10px; border-radius: 100px;
+    margin-top: 12px;
+  }
+
+  /* Second card floating */
+  .notif-card-2 {
+    position: absolute;
+    top: -60px; right: -30px;
+    background: var(--navy);
+    color: white;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 13px;
+    box-shadow: 0 10px 30px rgba(13,31,78,0.3);
+    width: 200px;
+  }
+  .notif-card-2 .label { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .notif-card-2 .value { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--green); }
+
+  /* HOW IT WORKS */
+  .section { padding: 100px 5%; }
+  .section-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.5px;
+    max-width: 560px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .step {
+    background: white;
+    padding: 48px 40px;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px; font-weight: 900;
+    color: var(--off-white);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .step-icon {
+    width: 48px; height: 48px;
+    background: rgba(0,196,140,0.1);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .step p { font-size: 15px; line-height: 1.65; color: var(--gray); font-weight: 300; }
+
+  /* FOR WHOM */
+  .for-whom { background: var(--off-white); }
+
+  .sectors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 52px;
+  }
+
+  .sector {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .sector:hover {
+    border-color: var(--green);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,196,140,0.15);
+  }
+  .sector-icon { font-size: 32px; margin-bottom: 12px; }
+  .sector-name { font-size: 14px; font-weight: 600; color: var(--navy); }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 760px;
+    margin: 60px auto 0;
+  }
+
+  .plan {
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 36px;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .plan:hover { border-color: var(--navy); }
+
+  .plan.featured {
+    border-color: var(--navy);
+    background: var(--navy);
+    color: white;
+  }
+
+  .plan-badge {
+    position: absolute; top: -12px; left: 32px;
+    background: var(--green);
+    color: white;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 100px;
+  }
+
+  .plan-name {
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 12px;
+  }
+  .plan.featured .plan-name { color: rgba(255,255,255,0.5); }
+
+  .plan-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px; font-weight: 900;
+    line-height: 1; margin-bottom: 4px;
+  }
+  .plan-price span { font-size: 22px; font-weight: 400; }
+
+  .plan-period { font-size: 14px; color: var(--gray); margin-bottom: 28px; }
+  .plan.featured .plan-period { color: rgba(255,255,255,0.5); }
+
+  .plan-features { list-style: none; margin-bottom: 32px; }
+  .plan-features li {
+    font-size: 14px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 400;
+  }
+  .plan.featured .plan-features li { border-color: rgba(255,255,255,0.1); }
+  .plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; }
+
+  .btn-plan {
+    display: block; width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 15px; font-weight: 600;
+    text-align: center; text-decoration: none;
+    transition: all 0.2s;
+    border: 2px solid var(--navy);
+    color: var(--navy);
+    background: transparent;
+    cursor: pointer;
+  }
+  .btn-plan:hover { background: var(--navy); color: white; }
+  .plan.featured .btn-plan {
+    background: var(--green); border-color: var(--green); color: white;
+  }
+  .plan.featured .btn-plan:hover { background: var(--green-dark); border-color: var(--green-dark); }
+
+  /* TESTIMONIALS */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .testimonial {
+    background: var(--off-white);
+    border-radius: 16px;
+    padding: 36px 32px;
+    border: 1px solid var(--border);
+  }
+
+  .testimonial-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; line-height: 1.6;
+    color: var(--navy); margin-bottom: 24px;
+  }
+  .testimonial-quote::before { content: '"'; color: var(--green); font-size: 28px; line-height: 0; vertical-align: -10px; margin-right: 4px; }
+
+  .testimonial-author { font-weight: 700; font-size: 14px; }
+  .testimonial-role { font-size: 13px; color: var(--gray); margin-top: 2px; }
+
+  /* CTA FOOTER */
+  .cta-section {
+    background: var(--navy);
+    padding: 100px 5%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute; top: -50%; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,196,140,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 900; color: white;
+    line-height: 1.15; margin-bottom: 20px;
+    position: relative;
+  }
+
+  .cta-section p {
+    font-size: 17px; color: rgba(255,255,255,0.55);
+    margin-bottom: 40px; font-weight: 300;
+    position: relative;
+  }
+
+  .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+  .btn-white {
+    background: white; color: var(--navy);
+    padding: 15px 36px; border-radius: 8px;
+    font-size: 16px; font-weight: 700;
+    text-decoration: none; transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
+
+  .btn-outline-white {
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white; padding: 15px 36px; border-radius: 8px;
+    font-size: 16px; font-weight: 600;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-outline-white:hover { border-color: white; }
+
+  .cta-sub {
+    margin-top: 20px; font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    position: relative;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #080f26;
+    padding: 40px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+
+  footer .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    text-decoration: none;
+  }
+  footer .logo .proto { color: white; }
+  footer .logo .call { color: var(--green); }
+
+  footer p { font-size: 13px; color: rgba(255,255,255,0.3); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero::before { display: none; }
+    .hero-visual { display: none; }
+    .steps { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><span class="proto">Proto</span><span class="call">Call</span></a>
+  <div class="nav-links">
+    <a href="#how">Πώς Λειτουργεί</a>
+    <a href="#pricing">Τιμές</a>
+    <a href="#contact">Επικοινωνία</a>
+    <a href="#trial" class="nav-cta">Δωρεάν Δοκιμή</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Διαθέσιμο τώρα στην Ελλάδα</div>
+    <h1>Το τηλέφωνό σας απαντάει <em>πάντα.</em></h1>
+    <p>Ακόμα και όταν εσείς δεν μπορείτε. Η ProtoCall μιλάει ελληνικά, ακούει τον πελάτη σας και σας στέλνει email με όλα τα στοιχεία — σε δευτερόλεπτα.</p>
+    <div class="hero-actions">
+      <a href="#trial" class="btn-primary">Δοκιμάστε δωρεάν 14 ημέρες</a>
+      <a href="#how" class="btn-secondary">Πώς λειτουργεί</a>
+    </div>
+    <div class="hero-trust">
+      <span>Χωρίς πιστωτική κάρτα</span> · Έτοιμο σε 5 λεπτά · Ακύρωση οποτεδήποτε
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div style="position: relative;">
+      <div class="notif-card-2">
+        <div class="label">Σήμερα</div>
+        <div class="value">12</div>
+        <div style="font-size: 12px; opacity: 0.7; margin-top: 2px;">κλήσεις απαντήθηκαν</div>
+      </div>
+      <div class="notif-card">
+        <div class="notif-header">
+          <div class="notif-icon">📞</div>
+          <div>
+            <div class="notif-title">Νέα κλήση — ProtoCall</div>
+            <div class="notif-sub">Μόλις τώρα · info@protocall.gr</div>
+          </div>
+        </div>
+        <div class="notif-body">
+          <strong>Όνομα:</strong> Γιώργος Παπαδόπουλος<br>
+          <strong>Τηλέφωνο:</strong> 6944 123 456<br>
+          <strong>Αίτημα:</strong> Θέλει να κλείσει ραντεβού για αύριο το πρωί.
+        </div>
+        <span class="notif-tag">✓ Απαντήθηκε αυτόματα</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-label">Πώς λειτουργεί</div>
+  <h2 class="section-title">Τρία βήματα. Κανένα χαμένο ραντεβού.</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon">📵</div>
+      <h3>Δεν απαντάτε</h3>
+      <p>Ο πελάτης σας καλεί και εσείς είστε απασχολημένοι, σε συνάντηση ή εκτός γραφείου.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon">🤖</div>
+      <h3>Η ProtoCall απαντάει</h3>
+      <p>Ο AI βοηθός σας σηκώνει, χαιρετάει στο όνομα της επιχείρησής σας και καταγράφει το αίτημα.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon">📧</div>
+      <h3>Λαμβάνετε email</h3>
+      <p>Σε δευτερόλεπτα λαμβάνετε email με όνομα, τηλέφωνο και αίτημα του καλούντος.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHOM -->
+<section class="section for-whom">
+  <div class="section-label">Για ποιους</div>
+  <h2 class="section-title">Ιδανικό για κάθε μικρή επιχείρηση.</h2>
+
+  <div class="sectors">
+    <div class="sector"><div class="sector-icon">🩺</div><div class="sector-name">Ιατρεία</div></div>
+    <div class="sector"><div class="sector-icon">🦷</div><div class="sector-name">Οδοντιατρεία</div></div>
+    <div class="sector"><div class="sector-icon">⚖️</div><div class="sector-name">Δικηγόροι</div></div>
+    <div class="sector"><div class="sector-icon">📊</div><div class="sector-name">Λογιστήρια</div></div>
+    <div class="sector"><div class="sector-icon">🏠</div><div class="sector-name">Κτηματομεσίτες</div></div>
+    <div class="sector"><div class="sector-icon">🏨</div><div class="sector-name">Ξενοδοχεία</div></div>
+    <div class="sector"><div class="sector-icon">🛍️</div><div class="sector-name">Καταστήματα</div></div>
+    <div class="sector"><div class="sector-icon">💆</div><div class="sector-name">Beauty</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="section-label">Τι λένε οι πελάτες</div>
+  <h2 class="section-title">Πραγματικές επιχειρήσεις. Πραγματικά αποτελέσματα.</h2>
+
+  <div class="testimonials-grid">
+    <div class="testimonial">
+      <div class="testimonial-quote">Πριν την ProtoCall έχανα 4-5 κλήσεις τη μέρα. Τώρα κάθε ασθενής παίρνει απάντηση.</div>
+      <div class="testimonial-author">Δρ. Μαρία Κωνσταντίνου</div>
+      <div class="testimonial-role">Παθολόγος, Αθήνα</div>
+    </div>
+    <div class="testimonial">
+      <div class="testimonial-quote">Στήσαμε το σύστημα σε 10 λεπτά. Αμέσως την πρώτη μέρα μας ενημέρωσε για δύο υποψήφιους πελάτες.</div>
+      <div class="testimonial-author">Νίκος Παπαδάκης</div>
+      <div class="testimonial-role">Δικηγόρος, Θεσσαλονίκη</div>
+    </div>
+    <div class="testimonial">
+      <div class="testimonial-quote">Το email notification είναι τέλειο. Βλέπω ποιος με πήρε και τι ήθελε, ακόμα κι όταν είμαι στο αμάξι.</div>
+      <div class="testimonial-author">Ελένη Σταύρου</div>
+      <div class="testimonial-role">Κτηματομεσίτρια, Χαλάνδρι</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="background: var(--off-white);">
+  <div style="text-align: center;">
+    <div class="section-label" style="display: inline-block;">Τιμολόγηση</div>
+    <h2 class="section-title" style="margin: 0 auto 12px; text-align: center;">Απλό. Διαφανές. Χωρίς εκπλήξεις.</h2>
+    <p style="color: var(--gray); font-size: 16px; font-weight: 300;">14 ημέρες δωρεάν δοκιμή και στα δύο πλάνα.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="plan">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price"><span>€</span>49</div>
+      <div class="plan-period">ανά μήνα</div>
+      <ul class="plan-features">
+        <li>έως 100 κλήσεις/μήνα</li>
+        <li>Email notifications</li>
+        <li>Custom χαιρετισμός</li>
+        <li>Ελληνική φωνή AI</li>
+      </ul>
+      <a href="#trial" class="btn-plan">Ξεκινήστε δωρεάν</a>
+    </div>
+    <div class="plan featured">
+      <div class="plan-badge">Δημοφιλές</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price"><span>€</span>79</div>
+      <div class="plan-period">ανά μήνα</div>
+      <ul class="plan-features">
+        <li>Απεριόριστες κλήσεις</li>
+        <li>Email notifications</li>
+        <li>Custom χαιρετισμός</li>
+        <li>Ελληνική φωνή AI</li>
+        <li>Προτεραιότητα support</li>
+      </ul>
+      <a href="#trial" class="btn-plan">Ξεκινήστε δωρεάν</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="trial">
+  <h2>Μην αφήσετε άλλη κλήση αναπάντητη.</h2>
+  <p>Ξεκινήστε σήμερα. Χωρίς πιστωτική κάρτα. Έτοιμο σε 5 λεπτά.</p>
+  <div class="cta-actions">
+    <a href="mailto:info@protocall.gr" class="btn-white">Δοκιμάστε δωρεάν 14 ημέρες</a>
+    <a href="mailto:info@protocall.gr" class="btn-outline-white">Επικοινωνήστε μαζί μας</a>
+  </div>
+  <p class="cta-sub">Ακύρωση οποτεδήποτε · Χωρίς δεσμεύσεις</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo"><span class="proto">Proto</span><span class="call">Call</span></a>
+  <p>© 2025 ProtoCall · info@protocall.gr · protocall.gr</p>
+  <p style="color: rgba(255,255,255,0.3); font-size: 13px;">Η Πρώτη Φωνή της Επιχείρησής σας</p>
+</footer>
+
+</body>
+</html>
