@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProtoCall — Η Πρώτη Φωνή της Επιχείρησής σας</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1F4E;
+    --navy-light: #162a5e;
+    --green: #00C48C;
+    --green-dark: #009e72;
+    --white: #ffffff;
+    --off-white: #F7F8FC;
+    --gray: #8A94A8;
+    --border: #E4E8F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--navy);
+    background: var(--white);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 80px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+
+  nav.scrolled {
+    height: 65px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span.proto { color: var(--navy); }
+  .nav-logo span.call { color: var(--green); }
+
+  .nav-links { display: flex; gap: 30px; align-items: center; }
+  .nav-links a {
+    text-decoration: none; color: var(--navy);
+    font-size: 14px; font-weight: 600;
+    opacity: 0.7; transition: all 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--green); }
+
+  .nav-cta {
+    background: var(--navy);
+    color: white !important;
+    opacity: 1 !important;
+    padding: 10px 22px;
+    border-radius: 6px;
+    transition: all 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--green) !important; transform: scale(1.05); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 50%; height: 100%;
+    background: var(--off-white);
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 620px;
+    animation: fadeUp 1s ease forwards;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,196,140,0.1);
+    border: 1px solid rgba(0,196,140,0.3);
+    color: var(--green-dark);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 196, 140, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 196, 140, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 196, 140, 0); }
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 68px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 24px;
+    color: var(--navy);
+  }
+
+  .hero h1 em { font-style: normal; color: var(--green); }
+
+  .hero p {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--gray);
+    margin-bottom: 40px;
+    max-width: 500px;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: white;
+    padding: 18px 36px;
+    border-radius: 8px;
+    font-size: 16px; font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+    box-shadow: 0 10px 25px rgba(0,196,140,0.3);
+  }
+  .btn-primary:hover {
+    background: var(--green-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,196,140,0.4);
+  }
+
+  /* CARDS VISUAL */
+  .hero-visual {
+    position: absolute; right: 7%; top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  .notif-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    width: 350px;
+    box-shadow: 0 30px 60px rgba(13,31,78,0.12);
+    border: 1px solid var(--border);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  /* SECTIONS GENERAL */
+  .section { padding: 120px 5%; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+  .section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-label {
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 16px;
+  }
+
+  /* FAQ SECTION */
+  .faq-container {
+    max-width: 800px;
+    margin: 50px auto 0;
+  }
+  .faq-item {
+    background: var(--off-white);
+    margin-bottom: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .faq-question {
+    padding: 20px 25px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-answer {
+    padding: 0 25px 20px;
+    color: var(--gray);
+    font-size: 15px;
+    display: none;
+  }
+
+  /* ΥΠΟΛΟΙΠΟ CSS ΑΠΟ ΤΟ ΠΡΩΤΟΤΥΠΟ (Προσαρμοσμένο) */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
+  .step { background: var(--off-white); padding: 40px; border-radius: 20px; transition: 0.3s; }
+  .step:hover { background: var(--white); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+  .step-num { font-size: 40px; font-weight: 900; color: var(--green); opacity: 0.3; margin-bottom: 10px; }
+
+  .sectors { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 50px; }
+  .sector { background: white; border: 1px solid var(--border); border-radius: 15px; padding: 25px; text-align: center; transition: 0.3s; }
+  .sector:hover { border-color: var(--green); transform: translateY(-5px); }
+  
+  .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 900px; margin: 60px auto; }
+  .plan { border: 1px solid var(--border); border-radius: 20px; padding: 50px 40px; transition: 0.3s; }
+  .plan.featured { background: var(--navy); color: white; transform: scale(1.05); box-shadow: 0 20px 40px rgba(13,31,78,0.2); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .hero::before, .hero-visual { display: none; }
+    .hero { text-align: center; justify-content: center; }
+    .hero p { margin-left: auto; margin-right: auto; }
+    .steps, .sectors { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .steps, .sectors, .pricing-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; } /* Mobile menu needed for production */
+  }
+
+  /* Utilities */
+  .text-center { text-align: center; }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#" class="nav-logo"><span class="proto">Proto</span><span class="call">Call</span></a>
+  <div class="nav-links">
+    <a href="#how">Πώς Λειτουργεί</a>
+    <a href="#who">Για Ποιους</a>
+    <a href="#pricing">Τιμές</a>
+    <a href="#faq">FAQ</a>
+    <a href="#trial" class="nav-cta">Δωρεάν Δοκιμή</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Νέα εποχή στην εξυπηρέτηση</div>
+    <h1>Το τηλέφωνό σας απαντάει <em>πάντα.</em></h1>
+    <p>Μην χάνετε ποτέ ξανά πελάτη επειδή ήσασταν απασχολημένοι. Ο AI βοηθός της ProtoCall απαντάει στα ελληνικά και σας ενημερώνει αμέσως.</p>
+    <div class="hero-actions">
+      <a href="#trial" class="btn-primary">Ξεκινήστε τη Δωρεάν Δοκιμή</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="notif-card">
+      <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;">
+        <div style="background:var(--navy); padding:10px; border-radius:10px;">📞</div>
+        <div>
+          <div style="font-weight:700; font-size:14px;">Νέα κλήση — ProtoCall</div>
+          <div style="font-size:12px; color:var(--gray);">Πριν από 2 λεπτά</div>
+        </div>
+      </div>
+      <div style="background:var(--off-white); padding:15px; border-radius:10px; font-size:14px;">
+        <strong>Πελάτης:</strong> Γιάννης Α.<br>
+        <strong>Θέμα:</strong> Ραντεβού για καθαρισμό<br>
+        <strong>Status:</strong> <span style="color:var(--green)">Απαντήθηκε</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="text-center">
+    <div class="section-label">Η Διαδικασία</div>
+    <h2 style="font-family:'Playfair Display'; font-size:40px;">Πώς δουλεύει η ProtoCall;</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3 style="margin-bottom:15px;">Εκτροπή Κλήσης</h3>
+      <p>Όταν δεν μπορείτε να απαντήσετε, η κλήση μεταφέρεται αυτόματα στον AI βοηθό σας.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3 style="margin-bottom:15px;">AI Συνομιλία</h3>
+      <p>Ο βοηθός μιλάει με τον πελάτη φυσικά, απαντά σε ερωτήσεις και κρατάει τα στοιχεία του.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3 style="margin-bottom:15px;">Άμεση Ενημέρωση</h3>
+      <p>Λαμβάνετε email ή SMS με όλη τη σύνοψη της συνομιλίας μέσα σε δευτερόλεπτα.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section for-whom" id="who" style="background:var(--off-white); border-radius: 50px 50px 0 0;">
+  <div class="text-center">
+    <div class="section-label">Κλάδοι</div>
+    <h2 style="font-family:'Playfair Display'; font-size:40px;">Σχεδιασμένο για επαγγελματίες</h2>
+  </div>
+  <div class="sectors">
+    <div class="sector"><span>🩺</span><div style="font-weight:700; margin-top:10px;">Ιατροί</div></div>
+    <div class="sector"><span>⚖️</span><div style="font-weight:700; margin-top:10px;">Δικηγόροι</div></div>
+    <div class="sector"><span>🏠</span><div style="font-weight:700; margin-top:10px;">Real Estate</div></div>
+    <div class="sector"><span>💇</span><div style="font-weight:700; margin-top:10px;">Salons</div></div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="text-center">
+    <div class="section-label">Ερωτήσεις</div>
+    <h2 style="font-family:'Playfair Display'; font-size:40px;">Συχνές Απορίες</h2>
+  </div>
+  <div class="faq-container">
+    <div class="faq-item">
+      <div class="faq-question">Χρειάζεται να αλλάξω αριθμό τηλεφώνου; <span>+</span></div>
+      <div class="faq-answer">Όχι, κρατάτε τον αριθμό σας κανονικά. Η ProtoCall λειτουργεί με μια απλή εκτροπή κλήσης.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Μιλάει καλά Ελληνικά; <span>+</span></div>
+      <div class="faq-answer">Χρησιμοποιούμε τα πιο προηγμένα μοντέλα AI που καταλαβαίνουν την ελληνική γλώσσα, την αργκό και τις τοπικές προφορές.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Πώς γίνεται η δωρεάν δοκιμή; <span>+</span></div>
+      <div class="faq-answer">Σας δίνουμε έναν αριθμό δοκιμής για 7 ημέρες. Αν σας αρέσει, συνεχίζετε με το πλάνο που σας ταιριάζει.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing" style="background: var(--off-white);">
+    <div style="text-align: center;">
+      <div class="section-label">Τιμολόγηση</div>
+      <h2 style="font-family:'Playfair Display'; font-size:40px; margin-bottom:10px;">Ξεκάθαρες τιμές</h2>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan">
+        <div style="font-size:12px; font-weight:800; color:var(--gray); text-transform:uppercase; margin-bottom:15px;">Starter</div>
+        <div style="font-size:48px; font-weight:900; font-family:'Playfair Display';">€49<span style="font-size:16px; font-weight:400;">/μήνα</span></div>
+        <ul style="list-style:none; margin:30px 0; font-size:15px; color:var(--gray);">
+            <li style="margin-bottom:10px;">✓ 100 κλήσεις / μήνα</li>
+            <li style="margin-bottom:10px;">✓ Email Notifications</li>
+            <li style="margin-bottom:10px;">✓ Custom Χαιρετισμός</li>
+        </ul>
+        <a href="#" class="btn-primary" style="width:100%; text-align:center;">Επιλογή</a>
+      </div>
+      <div class="plan featured">
+        <div style="font-size:12px; font-weight:800; color:var(--green); text-transform:uppercase; margin-bottom:15px;">Professional</div>
+        <div style="font-size:48px; font-weight:900; font-family:'Playfair Display';">€79<span style="font-size:16px; font-weight:400; color:rgba(255,255,255,0.6);">/μήνα</span></div>
+        <ul style="list-style:none; margin:30px 0; font-size:15px; opacity:0.8;">
+            <li style="margin-bottom:10px;">✓ Απεριόριστες κλήσεις</li>
+            <li style="margin-bottom:10px;">✓ Προτεραιότητα στο Support</li>
+            <li style="margin-bottom:10px;">✓ AI Analytics</li>
+        </ul>
+        <a href="#" class="btn-primary" style="width:100%; text-align:center;">Επιλογή</a>
+      </div>
+    </div>
+</section>
+
+<footer style="background:var(--navy); color:white; padding:80px 5% 40px; text-align:center;">
+    <h2 style="font-family:'Playfair Display'; font-size:32px; margin-bottom:20px;">ProtoCall</h2>
+    <p style="opacity:0.6; margin-bottom:40px;">Η Πρώτη Φωνή της Επιχείρησής σας.</p>
+    <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:40px; font-size:13px; opacity:0.4;">
+        © 2026 ProtoCall AI. All rights reserved.
+    </div>
+</footer>
+
+<script>
+  // Sticky Nav Effect
+  window.addEventListener('scroll', function() {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    
+    // Scroll Reveal Effect
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+      const sectionTop = section.getBoundingClientRect().top;
+      if (sectionTop < window.innerHeight * 0.8) {
+        section.classList.add('visible');
+      }
+    });
+  });
+
+  // FAQ Accordion
+  document.querySelectorAll('.faq-question').forEach(item => {
+    item.addEventListener('click', () => {
+      const answer = item.nextElementSibling;
+      const isOpen = answer.style.display === 'block';
+      
+      document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+      answer.style.display = isOpen ? 'none' : 'block';
+    });
+  });
+
+  // Initial trigger for scroll reveal
+  window.dispatchEvent(new Event('scroll'));
+</script>
+
+</body>
+</html>
